@@ -5,7 +5,7 @@ class PersonForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: 350,
+    return SizedBox(height: 350, width: 500,
       child: Form(child: Column(
         children: [
           Text("Registrar Persona", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),

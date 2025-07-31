@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
 
     void showDialogFormEvent(BuildContext context){
       showDialog(
+        barrierDismissible: false,
         context: context, 
         builder: (BuildContext context)=>AlertDialog(
           title:  Icon(Icons.calendar_month),

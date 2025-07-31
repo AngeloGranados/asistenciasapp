@@ -14,13 +14,11 @@ class CardEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print(eventoM.fecha.toDate());
-
     return Stack(
       children: [
           GestureDetector(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AsistenciaPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AsistenciaPage(eventoM)));
             },
             child: Container(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),

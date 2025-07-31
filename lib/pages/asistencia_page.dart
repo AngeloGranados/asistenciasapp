@@ -1,3 +1,4 @@
+import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/pages/acepted_page.dart';
 import 'package:asistenciasapp/pages/registed_page.dart';
 import 'package:asistenciasapp/widgets/card-person.dart';
@@ -5,11 +6,15 @@ import 'package:asistenciasapp/widgets/person_form.dart';
 import 'package:flutter/material.dart';
 
 class AsistenciaPage extends StatelessWidget {
-  const AsistenciaPage({super.key});
+
+  EventoModel eventoM;
+
+  AsistenciaPage(this.eventoM);
 
   void showDialogFormPerson(BuildContext context){
-    showDialog(context: (context), builder: (context)=> AlertDialog(
+    showDialog(barrierDismissible: false, context: (context), builder: (context)=> AlertDialog(
       title: Icon(Icons.person_2),
+
       content: PersonForm(),
       actions: [
         MaterialButton(onPressed: (){}, child: Text("Guardar")),
@@ -27,7 +32,7 @@ class AsistenciaPage extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: CircleAvatar(backgroundColor: Colors.green, child: IconButton(onPressed: ()=>showDialogFormPerson(context),color: Colors.white, icon: Icon(Icons.person_add))),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        appBar: AppBar(title: Text("Cena", style: TextStyle(fontWeight: FontWeight.bold)),backgroundColor: Colors.green),
+        appBar: AppBar(title: Text("${eventoM.nombre}", style: TextStyle(fontWeight: FontWeight.bold)),backgroundColor: Colors.green),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

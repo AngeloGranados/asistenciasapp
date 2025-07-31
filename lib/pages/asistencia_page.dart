@@ -1,6 +1,7 @@
 import 'package:asistenciasapp/pages/acepted_page.dart';
 import 'package:asistenciasapp/pages/registed_page.dart';
 import 'package:asistenciasapp/widgets/card-person.dart';
+import 'package:asistenciasapp/widgets/person_form.dart';
 import 'package:flutter/material.dart';
 
 class AsistenciaPage extends StatelessWidget {
@@ -8,8 +9,8 @@ class AsistenciaPage extends StatelessWidget {
 
   void showDialogFormPerson(BuildContext context){
     showDialog(context: (context), builder: (context)=> AlertDialog(
-      title: Text("Registrar Persona"),
-      content: Text("contenido"),
+      title: Icon(Icons.person_2),
+      content: PersonForm(),
       actions: [
         MaterialButton(onPressed: (){}, child: Text("Guardar")),
         MaterialButton(onPressed: (){

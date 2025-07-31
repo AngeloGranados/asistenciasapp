@@ -1,15 +1,20 @@
+import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/pages/asistencia_page.dart';
 import 'package:asistenciasapp/widgets/popmenu.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardEvent extends StatelessWidget {
   
   Function showDialogFormEvent;
+  EventoModel eventoM;
 
-  CardEvent(this.showDialogFormEvent);
+  CardEvent(this.showDialogFormEvent, this.eventoM);
 
   @override
   Widget build(BuildContext context) {
+
+    print(eventoM.fecha.toDate());
 
     return Stack(
       children: [
@@ -33,23 +38,23 @@ class CardEvent extends StatelessWidget {
             child: Column(
               spacing: 10,
               children: [
-                Text("Cena cumpleaños", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                Text("Del Rio Restobar"),
+                Text("${eventoM.nombre}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                Text("${eventoM.direccion}"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       spacing: 10,
                       children: [
-                        Icon(Icons.abc),
-                        Text("38/05/02")
+                        Icon(Icons.date_range),
+                        Text("${DateFormat('dd/MM/yyyy').format(eventoM.fecha.toDate())}")
                       ],
                     ),
                     Row(
                       spacing: 10,
                       children: [
-                        Icon(Icons.abc_rounded),
-                        Text("08:00")
+                        Icon(Icons.alarm),
+                        Text("${DateFormat('HH:mm').format(eventoM.fecha.toDate())}")
                       ],
                     )
                   ],

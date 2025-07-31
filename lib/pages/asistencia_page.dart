@@ -17,8 +17,12 @@ class AsistenciaPage extends StatelessWidget {
 
       content: PersonForm(),
       actions: [
-        MaterialButton(onPressed: (){}, child: Text("Guardar")),
-        MaterialButton(onPressed: (){
+        MaterialButton(
+          color: Colors.lightGreen,
+          onPressed: (){}, child: Text("Guardar")),
+        MaterialButton(
+          color: Colors.red,
+          onPressed: (){
           Navigator.pop(context);
         }, child:  Text("Cancelar"))
       ],

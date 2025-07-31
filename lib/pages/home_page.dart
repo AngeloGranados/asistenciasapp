@@ -5,12 +5,56 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   CollectionReference _eventos = FirebaseFirestore.instance.collection("EVENTOS");
+
+  Timestamp? fecha;
+  TextEditingController? nombre = TextEditingController();
+  TextEditingController? direccion = TextEditingController();
+
+  void clearControllers(){
+    nombre?.clear();
+    direccion?.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+      Future selectDate() async{
+        DateTime? pickeddate = await showDatePicker(
+          locale: const Locale("es", "ES"),
+          context: context, 
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2050),
+        );
+
+        if(pickeddate != null){
+           TimeOfDay? pickedtime = await showTimePicker(
+            context: context, 
+            initialTime: TimeOfDay.now()
+          ); 
+
+          if(pickedtime != null){
+            DateTime combineddate = DateTime(
+              pickeddate.year,
+              pickeddate.month,
+              pickeddate.day,
+              pickedtime.hour,
+              pickedtime.minute
+            );
+
+            fecha = Timestamp.fromDate(combineddate);
+            setState(() {});
+          }
+        }
+      }
 
     void showDialogFormEvent(BuildContext context){
       showDialog(
@@ -18,11 +62,26 @@ class HomePage extends StatelessWidget {
         context: context, 
         builder: (BuildContext context)=>AlertDialog(
           title:  Icon(Icons.calendar_month),
-          content: EventForm(),
+          content: EventForm(nombre, direccion, () => selectDate()),
           actions: [
-            MaterialButton(onPressed: (){},child: Text("Guardar")),
-            MaterialButton(onPressed: (){
+            MaterialButton(
+              color: Colors.lightGreen,
+              onPressed: () async{
+              EventoModel newevent = EventoModel(
+                nombre: nombre!.text, 
+                direccion: direccion!.text, 
+                fecha: fecha
+              );         
+
+              final eventadded = await _eventos.add(newevent.toMap());
               Navigator.pop(context);
+              clearControllers();
+            },child: Text("Guardar")),
+            MaterialButton(
+              color: Colors.red,
+              onPressed: (){
+              Navigator.pop(context);
+              clearControllers();
             },child: Text("Cancelar"))
           ],
         ));

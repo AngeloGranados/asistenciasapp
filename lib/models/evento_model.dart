@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class EventoModel {
   String nombre;
   String direccion;
-  Timestamp fecha;
+  Timestamp? fecha;
 
   EventoModel({required this.nombre, required this.direccion, required this.fecha});
 

@@ -45,14 +45,14 @@ class CardEvent extends StatelessWidget {
                       spacing: 10,
                       children: [
                         Icon(Icons.date_range),
-                        Text("${DateFormat('dd/MM/yyyy').format(eventoM.fecha.toDate())}")
+                        Text(eventoM.fecha != null ? "${DateFormat('dd/MM/yyyy').format(eventoM.fecha!.toDate())}" : "no disponible")
                       ],
                     ),
                     Row(
                       spacing: 10,
                       children: [
                         Icon(Icons.alarm),
-                        Text("${DateFormat('HH:mm').format(eventoM.fecha.toDate())}")
+                        Text(eventoM.fecha != null ? "${DateFormat('HH:mm').format(eventoM.fecha!.toDate())}" : "no disponible")
                       ],
                     )
                   ],

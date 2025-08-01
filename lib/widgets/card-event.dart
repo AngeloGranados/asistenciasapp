@@ -61,7 +61,7 @@ class CardEvent extends StatelessWidget {
             ),
                     ),
           ),
-        Positioned(right: 10, top: 10, child: Popmenu(showDialogFormEvent))
+        Positioned(right: 10, top: 10, child: Popmenu(showDialogFormEvent, eventoM))
       ]
     );
   }

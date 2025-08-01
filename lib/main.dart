@@ -9,7 +9,9 @@ void main() async{
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
     localizationsDelegates: [
-      GlobalMaterialLocalizations.delegate
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate
     ],
     supportedLocales: [
       const Locale("es"),

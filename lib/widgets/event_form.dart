@@ -23,14 +23,33 @@ class _EventFormState extends State<EventForm> {
         children: [
           Text("Registrar Evento", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           SizedBox(height: 20),
-          TextField(controller: widget.nombre, decoration: InputDecoration(
-            label: Text("Nombre", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
-          )),
-          TextField(controller: widget.direccion, decoration: InputDecoration(
-            label: Text("Dirección", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
-          )),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.event),
+              SizedBox(width: 20),
+              Expanded(
+                child: TextField(controller: widget.nombre, decoration: InputDecoration(
+                label: Text("Nombre", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+                            )),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.route),
+              SizedBox(width: 20),
+              Expanded(
+                child: TextField(controller: widget.direccion, decoration: InputDecoration(
+                  label: Text("Dirección", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+                )),
+              ),
+            ],
+          ),
           SizedBox(height: 29),
-          IconButton(onPressed: widget.dateSelect, icon: Icon(Icons.date_range))
+          IconButton(color: Colors.blueAccent, onPressed: widget.dateSelect, icon: Icon(Icons.date_range)),
+          Text("Seleccione una fecha y hora")
         ],
       )),
     );

@@ -3,12 +3,9 @@ import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/models/persona_model.dart';
 import 'package:asistenciasapp/pages/acepted_page.dart';
 import 'package:asistenciasapp/pages/registed_page.dart';
-import 'package:asistenciasapp/widgets/card-person.dart';
 import 'package:asistenciasapp/widgets/person_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AsistenciaPage extends StatefulWidget {
 
@@ -24,9 +21,17 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
 
   TextEditingController _nombres = TextEditingController();
   TextEditingController _apellidos = TextEditingController();
-  TextEditingController _genero = TextEditingController();
+  String genero = "Masculino";
   TextEditingController _edad = TextEditingController();
   TextEditingController _telefono = TextEditingController();
+
+  void clearControllers(){
+    _nombres.clear();
+    _apellidos.clear();
+    genero = "Masculino";
+    _edad.clear();
+    _telefono.clear();
+  }
 
   void showDialogFormPerson(BuildContext context){
     showDialog(barrierDismissible: false, context: (context), builder: (context)=> AlertDialog(
@@ -34,7 +39,9 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
       content: PersonForm(
         nombres: _nombres,
         apellidos: _apellidos,
-        genero: _genero,
+        onChangegenero: (value){
+          genero = value!;
+        },
         edad: _edad,
         telefono: _telefono,
       ),
@@ -45,18 +52,29 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
 
             final DocRef = FirebaseFirestore.instance.collection("PERSONAS").doc();
 
+            if(PersonaModel.validarPersona(
+                apellidosController:  _apellidos.text,
+                nombresController:  _nombres.text,
+                telefonoController:  _telefono.text,
+                generoController:  genero,
+                edadController: _edad.text
+            )){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Falta datos a completar", textAlign: TextAlign.center)));
+              return;
+            }
+            
             PersonaModel persona = PersonaModel(
               id: DocRef.id,
               apellidos: _apellidos.text, 
               nombres: _nombres.text, 
               telefono: int.parse(_telefono.text), 
-              genero: _genero.text,
+              genero: genero,
               fechaReg: Timestamp.fromDate(DateTime.now())
             );
 
             DocRef.set(persona.toMap());
 
-            if(!DocRef.id.isEmpty && DocRef != null){
+            if(!DocRef.id.isEmpty && DocRef.id != null){
 
               final docRefAsist = FirebaseFirestore.instance.collection("ASISTENCIAS").doc();
               AsistenciasModel asistencia = AsistenciasModel(
@@ -70,6 +88,8 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
               docRefAsist.set(asistencia.toMap());
             }
 
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.green, content: Text("Persona registrada exitosamente!", textAlign: TextAlign.center,)));
+            clearControllers();
             setState(() {});
             Navigator.pop(context);
           
@@ -77,6 +97,7 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
         MaterialButton(
           color: Colors.red,
           onPressed: (){
+          clearControllers();
           Navigator.pop(context);
         }, child:  Text("Cancelar"))
       ],

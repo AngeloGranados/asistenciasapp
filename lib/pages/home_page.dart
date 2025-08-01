@@ -2,7 +2,6 @@ import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/widgets/card-event.dart';
 import 'package:asistenciasapp/widgets/event_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   void clearControllers(){
     nombre?.clear();
     direccion?.clear();
+    fecha = null;
   }
 
   @override
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         context: context, 
         builder: (BuildContext context)=>AlertDialog(
           title:  Icon(Icons.calendar_month),
-          content: EventForm(nombre, direccion, () => selectDate()),
+          content: EventForm(nombre, direccion, ()=>selectDate()),
           actions: [
             MaterialButton(
               color: Colors.lightGreen,
@@ -75,9 +75,15 @@ class _HomePageState extends State<HomePage> {
                 nombre: nombre!.text, 
                 direccion: direccion!.text, 
                 fecha: fecha
-              );         
+              );       
+              
+              if(newevent.validadEvento()){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Falta completar el formulario", textAlign: TextAlign.center)));
+                return;
+              }  
 
               await docRef.set(newevent.toMap());
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.green, content: Text("Evento guardado exitosamente!", textAlign: TextAlign.center)));
               Navigator.pop(context);
               clearControllers();
             },child: Text("Guardar")),

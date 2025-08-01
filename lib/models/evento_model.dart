@@ -24,4 +24,24 @@ class EventoModel {
       "fecha" : fecha
     };
   }
+
+  static Future<void> eliminarEvento(String idevento) async{
+    CollectionReference _evento = FirebaseFirestore.instance.collection("EVENTOS");
+    CollectionReference _personas = FirebaseFirestore.instance.collection("PERSONAS");
+    CollectionReference _asistencias = FirebaseFirestore.instance.collection("ASISTENCIAS");
+
+    QuerySnapshot asistencia = await _asistencias.where("idevento", isEqualTo: idevento).get();
+    List<DocumentSnapshot> asistenciaTodelete = asistencia.docs; 
+
+    for(var value in asistenciaTodelete){
+      final asistmap = value.data() as Map<String, dynamic>;
+      _personas.doc(asistmap['idpersona']).delete();
+      _asistencias.doc(value.id).delete();
+    }
+    await _evento.doc(idevento).delete();
+  }
+
+  bool validadEvento(){
+    return nombre.isEmpty || fecha == null || direccion.isEmpty;
+  } 
 }

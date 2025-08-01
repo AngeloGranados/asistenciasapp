@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:asistenciasapp/models/asistencias_model.dart';
 import 'package:asistenciasapp/models/registrados_model.dart';
 import 'package:flutter/material.dart';

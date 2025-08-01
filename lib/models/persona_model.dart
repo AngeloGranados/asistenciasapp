@@ -31,4 +31,8 @@ class PersonaModel {
       fechaReg: map["fechaReg"]
     );
   }
+
+  static bool validarPersona({nombresController, apellidosController, telefonoController, generoController, fechaRegController, edadController}){
+    return nombresController.isEmpty || apellidosController.isEmpty || telefonoController.toString().isEmpty || generoController.isEmpty || int.tryParse(telefonoController) == null || int.tryParse(edadController) == null;
+  }
 }

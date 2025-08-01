@@ -1,8 +1,6 @@
 import 'package:asistenciasapp/models/asistencias_model.dart';
 import 'package:asistenciasapp/models/evento_model.dart';
-import 'package:asistenciasapp/models/registrados_model.dart';
 import 'package:asistenciasapp/widgets/card-person.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AceptedPage extends StatelessWidget {

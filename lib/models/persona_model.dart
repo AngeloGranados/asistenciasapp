@@ -1,26 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PersonaModel {
+  String id;
   String apellidos;
   String nombres;
-  int dni;
+  int telefono;
   String genero;
+  Timestamp fechaReg;
 
-  PersonaModel({required this.apellidos, required this.nombres, required this.dni, required this.genero});
+  PersonaModel({required this.id, required this.apellidos, required this.nombres, required this.telefono, required this.genero, required this.fechaReg});
 
   Map<String, dynamic> toMap(){
     return {
+      "id" : id,
       "nombres" : nombres,
       "apellidos" : apellidos,
-      "dni" : dni,
-      "genero" : genero 
+      "telefono" : telefono,
+      "genero" : genero,
+      "fechaReg" : fechaReg 
     };
   }
 
-  factory PersonaModel.fromMap(Map<String, dynamic> map, int id){
+  factory PersonaModel.fromMap(Map<String, dynamic> map, String id){
     return PersonaModel(
+      id: id,
       apellidos: map["apellidos"], 
       nombres: map["nombres"], 
-      dni: map["dni"], 
-      genero: map["genero"]
+      telefono: map["telefono"], 
+      genero: map["genero"],
+      fechaReg: map["fechaReg"]
     );
   }
 }

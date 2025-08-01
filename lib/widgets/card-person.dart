@@ -1,7 +1,29 @@
-import 'package:flutter/material.dart';
+import 'dart:ffi';
 
-class CardPerson extends StatelessWidget {
-  const CardPerson({super.key});
+import 'package:asistenciasapp/models/asistencias_model.dart';
+import 'package:asistenciasapp/models/registrados_model.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class CardPerson extends StatefulWidget {
+
+  RegistradosModel personRegisted;
+
+  CardPerson({required this.personRegisted});
+
+  @override
+  State<CardPerson> createState() => _CardPersonState();
+}
+
+class _CardPersonState extends State<CardPerson> {
+  bool estado = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    estado = widget.personRegisted.estado;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +41,22 @@ class CardPerson extends StatelessWidget {
       child: ListTile(
         title: Column(
           children: [
-            Text("Angelo Granados Barreda", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            Text("${widget.personRegisted.nombreCompleto}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("dwedwe", style: TextStyle(fontSize: 13)),
-                Text("bgtervre", style: TextStyle(fontSize: 13))
+                Text("${widget.personRegisted.telefono}", style: TextStyle(fontSize: 13)),
+                Text("${DateFormat.yMMMd().format(widget.personRegisted.fechaReg.toDate())}", style: TextStyle(fontSize: 13))
               ],
             )
           ],
         ),
         leading: Icon(Icons.person_2_outlined),
-        trailing: Checkbox(value: false, onChanged: (value){}),
+        trailing: Checkbox(value: estado, onChanged: (value){
+          estado = value!;
+          AsistenciasModel.setEstado(estado, widget.personRegisted.idasistencia);
+          setState(() {});
+        }),
       )
     );
   }

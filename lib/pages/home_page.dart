@@ -67,13 +67,17 @@ class _HomePageState extends State<HomePage> {
             MaterialButton(
               color: Colors.lightGreen,
               onPressed: () async{
+
+              final docRef = _eventos.doc();  
+
               EventoModel newevent = EventoModel(
+                id: docRef.id,
                 nombre: nombre!.text, 
                 direccion: direccion!.text, 
                 fecha: fecha
               );         
 
-              final eventadded = await _eventos.add(newevent.toMap());
+              await docRef.set(newevent.toMap());
               Navigator.pop(context);
               clearControllers();
             },child: Text("Guardar")),

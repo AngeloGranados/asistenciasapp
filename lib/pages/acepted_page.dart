@@ -21,6 +21,9 @@ class AceptedPage extends StatelessWidget {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           }
+          if(snapshot.data.length == 0){
+            return Center(child: Text("No se encontraron datos"));
+          }
           return ListView.separated(
           itemBuilder: (context, index){
             return CardPerson(personRegisted: snapshot.data[index]);

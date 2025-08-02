@@ -59,7 +59,7 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
                 generoController:  genero,
                 edadController: _edad.text
             )){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Falta datos a completar", textAlign: TextAlign.center)));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Error al ingresar los datos", textAlign: TextAlign.center)));
               return;
             }
             
@@ -69,6 +69,7 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
               nombres: _nombres.text, 
               telefono: int.parse(_telefono.text), 
               genero: genero,
+              edad: int.parse(_edad.text),
               fechaReg: Timestamp.fromDate(DateTime.now())
             );
 
@@ -82,6 +83,7 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
                 idpersona: DocRef.id, 
                 idevento: widget.eventoM.id, 
                 estado: false, 
+                fechaMod: Timestamp.fromDate(DateTime.now()),
                 fecha: Timestamp.fromDate(DateTime.now())
               );
 
@@ -117,7 +119,13 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
           color: Colors.white, icon: Icon(Icons.person_add)
         )),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        appBar: AppBar(title: Text("${widget.eventoM.nombre}", style: TextStyle(fontWeight: FontWeight.bold)),backgroundColor: Colors.green),
+        appBar: AppBar(title: Row(
+          children: [
+            Icon(Icons.date_range),
+            SizedBox(width: 10),
+            Text("${widget.eventoM.nombre}", style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),backgroundColor: Colors.green),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

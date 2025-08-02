@@ -7,9 +7,10 @@ class AsistenciasModel {
   String idevento;
   String idpersona;
   Timestamp fecha;
+  Timestamp fechaMod;
   bool estado;
 
-  AsistenciasModel({required this.id, required this.idpersona, required this.idevento, required this.estado, required this.fecha}); 
+  AsistenciasModel({required this.fechaMod, required this.id, required this.idpersona, required this.idevento, required this.estado, required this.fecha}); 
 
   Map<String, dynamic> toMap(){
     return {
@@ -17,6 +18,7 @@ class AsistenciasModel {
       "idevento" : idevento,
       "idpersona" : idpersona,
       "fecha" : fecha,
+      "fechaMod" : fechaMod,
       "estado" : estado
     };
   }
@@ -25,15 +27,17 @@ class AsistenciasModel {
     return AsistenciasModel(
       id: id,
       idpersona: map["idpersona"], 
+      fechaMod: map["fechaMod"],
       idevento: map["idevento"], 
       estado: map["estado"], 
       fecha: map["fecha"]
     );
   }
 
-  static Future setEstado(bool estado, String id){
+  static Future setEstado(bool estado, String id) async{
     CollectionReference _asistenciaReference = FirebaseFirestore.instance.collection("ASISTENCIAS");
-    return _asistenciaReference.doc(id).update({"estado" : estado});
+    await _asistenciaReference.doc(id).update({"estado" : estado});
+    await _asistenciaReference.doc(id).update({"fechaMod": DateTime.now()});
   }
 
   static Future<List<RegistradosModel>> getRegistrados(String idevento, bool estado) async{
@@ -51,10 +55,13 @@ class AsistenciasModel {
       RegistradosModel registrado = RegistradosModel(
         idasistencia: value.id,
         idevento: value.idevento, 
+        fechaMod: value.fechaMod,
         idpersona: value.idpersona, 
         estado: value.estado, 
+        genero: personaById.genero,
+        edad: personaById.edad,
         nombreCompleto: "${personaById.nombres} ${personaById.apellidos}",
-        fechaReg: value.fecha,
+        fechaReg: personaById.fechaReg,
         telefono: personaById.telefono
       );
       registrados.add(registrado);

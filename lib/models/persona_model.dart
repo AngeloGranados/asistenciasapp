@@ -6,9 +6,10 @@ class PersonaModel {
   String nombres;
   int telefono;
   String genero;
+  int edad;
   Timestamp fechaReg;
 
-  PersonaModel({required this.id, required this.apellidos, required this.nombres, required this.telefono, required this.genero, required this.fechaReg});
+  PersonaModel({required this.edad, required this.id, required this.apellidos, required this.nombres, required this.telefono, required this.genero, required this.fechaReg});
 
   Map<String, dynamic> toMap(){
     return {
@@ -16,6 +17,7 @@ class PersonaModel {
       "nombres" : nombres,
       "apellidos" : apellidos,
       "telefono" : telefono,
+      "edad" : edad,
       "genero" : genero,
       "fechaReg" : fechaReg 
     };
@@ -27,6 +29,7 @@ class PersonaModel {
       apellidos: map["apellidos"], 
       nombres: map["nombres"], 
       telefono: map["telefono"], 
+      edad: map["edad"],
       genero: map["genero"],
       fechaReg: map["fechaReg"]
     );

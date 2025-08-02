@@ -23,7 +23,7 @@ class RegistedPage extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if(snapshot.data.length == 0){
-            return Text("no data");
+            return Center(child: Text("No se encontraron datos"));
           }
           return ListView.separated(
           itemBuilder: (context, index){

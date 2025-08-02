@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             setState(() {});
           }
         }
-      }
+    }
 
     void showDialogFormEvent({required BuildContext context, nuevoDatos = true, EventoModel? eventoM}){
       showDialog(
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                 direccionController: direccion?.text,
                 fechaController: fecha
               )){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Falta completar el formulario", textAlign: TextAlign.center)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Error al ingresar los datos", textAlign: TextAlign.center)));
                 return;
               } 
 
@@ -116,7 +116,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: CircleAvatar(backgroundColor: Colors.green, child: IconButton(onPressed: ()=> showDialogFormEvent(context: context, nuevoDatos: true, eventoM: null),color: Colors.white, icon: Icon(Icons.calendar_month))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: AppBar(title: Text("Eventos", style: TextStyle(fontWeight: FontWeight.bold)), backgroundColor: Colors.green),
+      appBar: AppBar(title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.date_range_sharp),
+          SizedBox(width: 10),
+          Text("Eventos", style: TextStyle(fontWeight: FontWeight.bold)),
+        ],
+      ), backgroundColor: Colors.green),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -130,6 +137,9 @@ class _HomePageState extends State<HomePage> {
                 }
                 if(snapshot.connectionState == ConnectionState.waiting){
                   return Center(child: CircularProgressIndicator());
+                }
+                if(snapshot.data.docs.length == 0){
+                  return Center(child: Text("No se encontraron datos"));
                 }
                 final List<QueryDocumentSnapshot> docs = snapshot.data.docs; 
                   List<EventoModel> eventos = docs.map((event) => EventoModel.fromMap(event.data() as Map<String, dynamic>, event.id)).toList();

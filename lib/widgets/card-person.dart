@@ -1,5 +1,6 @@
 import 'package:asistenciasapp/models/asistencias_model.dart';
 import 'package:asistenciasapp/models/registrados_model.dart';
+import 'package:asistenciasapp/pages/persona_detalles_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,14 +38,30 @@ class _CardPersonState extends State<CardPerson> {
         ]
       ),
       child: ListTile(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PersonaDetallesPage(personaReg: widget.personRegisted)));
+        },
         title: Column(
           children: [
             Text("${widget.personRegisted.nombreCompleto}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${widget.personRegisted.telefono}", style: TextStyle(fontSize: 13)),
-                Text("${DateFormat.yMMMd().format(widget.personRegisted.fechaReg.toDate())}", style: TextStyle(fontSize: 13))
+                Row(
+                  children: [
+                    Icon(Icons.call, size: 14),
+                    SizedBox(width: 5),
+                    Text("${widget.personRegisted.telefono}", style: TextStyle(fontSize: 13)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.date_range, size: 14),
+                    SizedBox(width: 5),
+                    Text("${DateFormat.yMMMd().format(widget.personRegisted.fechaReg.toDate())}", style: TextStyle(fontSize: 13)),
+                  ],
+                )
               ],
             )
           ],

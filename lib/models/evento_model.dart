@@ -41,7 +41,13 @@ class EventoModel {
     await _evento.doc(idevento).delete();
   }
 
-  bool validadEvento(){
-    return nombre.isEmpty || fecha == null || direccion.isEmpty;
+  static bool validadEvento(
+    {
+      nombreController,
+      direccionController,
+      fechaController
+    }
+  ){
+    return nombreController.isEmpty || fechaController == null || direccionController.isEmpty;
   } 
 }

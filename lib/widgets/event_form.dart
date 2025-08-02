@@ -1,19 +1,33 @@
+import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EventForm extends StatefulWidget {
 
   VoidCallback dateSelect;
-  TextEditingController? nombre;
-  TextEditingController? direccion;
+  TextEditingController? nombreController;
+  TextEditingController? direccionController;
 
-  EventForm(this.nombre, this.direccion, this.dateSelect);
+  EventoModel? eventM;
+  bool nuevosDatos;
+
+  EventForm({required this.nombreController, required this.direccionController, required this.dateSelect, this.eventM, required this.nuevosDatos});
 
   @override
   State<EventForm> createState() => _EventFormState();
 }
 
 class _EventFormState extends State<EventForm> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(!widget.nuevosDatos){
+      widget.nombreController?.text = widget.eventM!.nombre;
+      widget.direccionController?.text = widget.eventM!.direccion;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +43,7 @@ class _EventFormState extends State<EventForm> {
               Icon(Icons.event),
               SizedBox(width: 20),
               Expanded(
-                child: TextField(controller: widget.nombre, decoration: InputDecoration(
+                child: TextField(controller: widget.nombreController, decoration: InputDecoration(
                 label: Text("Nombre", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
                             )),
               ),
@@ -41,7 +55,7 @@ class _EventFormState extends State<EventForm> {
               Icon(Icons.route),
               SizedBox(width: 20),
               Expanded(
-                child: TextField(controller: widget.direccion, decoration: InputDecoration(
+                child: TextField(controller: widget.direccionController, decoration: InputDecoration(
                   label: Text("Dirección", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
                 )),
               ),

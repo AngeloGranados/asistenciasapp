@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/widgets/card-event.dart';
 import 'package:asistenciasapp/widgets/event_form.dart';
@@ -56,36 +58,50 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-    void showDialogFormEvent(BuildContext context){
+    void showDialogFormEvent({required BuildContext context, nuevoDatos = true, EventoModel? eventoM}){
       showDialog(
         barrierDismissible: false,
         context: context, 
         builder: (BuildContext context)=>AlertDialog(
           title:  Icon(Icons.calendar_month),
-          content: EventForm(nombre, direccion, ()=>selectDate()),
+          content: EventForm(nombreController: nombre, direccionController: direccion, dateSelect: ()=>selectDate(), eventM: eventoM, nuevosDatos: nuevoDatos),
           actions: [
             MaterialButton(
               color: Colors.lightGreen,
               onPressed: () async{
 
-              final docRef = _eventos.doc();  
-
-              EventoModel newevent = EventoModel(
-                id: docRef.id,
-                nombre: nombre!.text, 
-                direccion: direccion!.text, 
-                fecha: fecha
-              );       
-              
-              if(newevent.validadEvento()){
+              if(EventoModel.validadEvento(
+                nombreController: nombre?.text,
+                direccionController: direccion?.text,
+                fechaController: fecha
+              )){
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red, content: Text("Falta completar el formulario", textAlign: TextAlign.center)));
                 return;
-              }  
+              } 
 
-              await docRef.set(newevent.toMap());
+              if(nuevoDatos){
+                final docRef = _eventos.doc();  
+                EventoModel newevent = EventoModel(
+                  id: docRef.id,
+                  nombre: nombre!.text, 
+                  direccion: direccion!.text, 
+                  fecha: fecha
+                );       
+                
+
+                await docRef.set(newevent.toMap());
+              }else{
+                _eventos.doc(eventoM?.id).update({
+                    "nombre" : nombre!.text, 
+                    "direccion" : direccion!.text, 
+                    "fecha" : fecha
+                });
+              }
+
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.green, content: Text("Evento guardado exitosamente!", textAlign: TextAlign.center)));
               Navigator.pop(context);
               clearControllers();
+
             },child: Text("Guardar")),
             MaterialButton(
               color: Colors.red,
@@ -98,7 +114,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      floatingActionButton: CircleAvatar(backgroundColor: Colors.green, child: IconButton(onPressed: ()=> showDialogFormEvent(context),color: Colors.white, icon: Icon(Icons.calendar_month))),
+      floatingActionButton: CircleAvatar(backgroundColor: Colors.green, child: IconButton(onPressed: ()=> showDialogFormEvent(context: context, nuevoDatos: true, eventoM: null),color: Colors.white, icon: Icon(Icons.calendar_month))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(title: Text("Eventos", style: TextStyle(fontWeight: FontWeight.bold)), backgroundColor: Colors.green),
       body: Padding(

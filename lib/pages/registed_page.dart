@@ -22,6 +22,9 @@ class RegistedPage extends StatelessWidget {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           }
+          if(!snapshot.hasData || snapshot.data == null){
+            return Center(child: CircularProgressIndicator());
+          }
           if(snapshot.data.length == 0){
             return Center(child: Text("No se encontraron datos"));
           }

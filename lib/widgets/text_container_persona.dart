@@ -22,16 +22,8 @@ class _TextContainerPersonaState extends State<TextContainerPersona> {
 
   bool activaredit = false;
   String generoString = "Masculino";
-  String? TextActulizado;
 
   TextEditingController _editingController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    TextActulizado = widget.valor;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +56,13 @@ class _TextContainerPersonaState extends State<TextContainerPersona> {
                   )
               ] else
               Text(
-                "$TextActulizado",
+                widget.valor,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
               SizedBox(width: 10),
               if(widget.editarEnable && activaredit != true) GestureDetector(
                 onTap: (){
                   activaredit = true;
-                  if (widget.campo != "genero") {
-                    _editingController.text = TextActulizado ?? '';
-                  }
                   setState(() {});
                 } ,
                 child: Icon(Icons.edit, color: Colors.blue
@@ -93,11 +82,8 @@ class _TextContainerPersonaState extends State<TextContainerPersona> {
                 });
 
                 setState(() {
-                  TextActulizado = nuevoValor;
                   activaredit = false; 
                 });
-
-                print("Actualizado: $TextActulizado");
               }, child: Text("Editar", style: TextStyle(fontSize: 14, color: Colors.white),))
             ],
           )

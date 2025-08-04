@@ -1,37 +1,49 @@
-import 'package:asistenciasapp/models/persona_model.dart';
 import 'package:asistenciasapp/models/registrados_model.dart';
 import 'package:asistenciasapp/widgets/text_container_persona.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class PersonaDetallesPage extends StatelessWidget {
+class PersonaDetallesPage extends StatefulWidget {
 
   RegistradosModel personaReg;
 
   PersonaDetallesPage({required this.personaReg});
 
   @override
+  State<PersonaDetallesPage> createState() => _PersonaDetallesPageState();
+}
+
+class _PersonaDetallesPageState extends State<PersonaDetallesPage> {
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: Text("Participante", style: TextStyle(fontWeight: FontWeight.bold)), backgroundColor: Colors.green), 
+      appBar: AppBar(title: Row(
+        children: [
+          Icon(Icons.person),
+          SizedBox(width: 10),
+          Text("Participante", style: TextStyle(fontWeight: FontWeight.bold)),
+        ],
+      ), backgroundColor: Colors.green), 
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           children: [
-            Icon(Icons.person,size: 200),
-            Text("${personaReg.nombreCompleto}",textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            Icon(Icons.person_pin,size: 200),
+            Text("${widget.personaReg.nombreCompleto}",textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             SizedBox(height: 40),
-            TextContainerPersona(clave: "Edad:", valor: "${personaReg.edad}"),
-            TextContainerPersona(clave: "Telefono:", valor: "${personaReg.telefono}"),
-            TextContainerPersona(clave: "Fecha de registro:", valor: "${DateFormat("dd/MM/yyyy").format(personaReg.fechaReg.toDate())} - ${DateFormat("HH:mm").format(personaReg.fechaReg.toDate())}"),
-            TextContainerPersona(clave: "Ultima modificación:", valor: "${DateFormat("dd/MM/yyyy").format(personaReg.fechaMod.toDate())} - ${DateFormat("HH:mm").format(personaReg.fechaMod.toDate())}"),
-            TextContainerPersona(clave: "Genero", valor: "${personaReg.genero}"),
+            TextContainerPersona(clave: "Edad:", valor: "${widget.personaReg.edad}", editarEnable: true),
+            TextContainerPersona(clave: "Telefono:", valor: "${widget.personaReg.telefono}",  editarEnable: true),
+            TextContainerPersona(clave: "Fecha de registro:", valor: "${DateFormat("dd/MM/yyyy").format(widget.personaReg.fechaReg.toDate())} - ${DateFormat("HH:mm").format(widget.personaReg.fechaReg.toDate())}",  editarEnable: false),
+            TextContainerPersona(clave: "Ultima modificación:", valor: "${DateFormat("dd/MM/yyyy").format(widget.personaReg.fechaMod.toDate())} - ${DateFormat("HH:mm").format(widget.personaReg.fechaMod.toDate())}", editarEnable: false),
+            TextContainerPersona(clave: "Genero", valor: "${widget.personaReg.genero}",  editarEnable: true, tipoField: "select"),
             SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("ESTADO:"),
-                personaReg.estado ? Row(
+                widget.personaReg.estado ? Row(
                   children: [
                     Text("ASISTIÓ", style: TextStyle(color: Colors.green)),
                     SizedBox(width: 5),
@@ -45,7 +57,9 @@ class PersonaDetallesPage extends StatelessWidget {
                   ],
                 )
               ],
-            )
+            ),
+            SizedBox(height: 60),
+            ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.red), onPressed: (){}, child: Center(child: Text("Eliminar participante", style: TextStyle(color: Colors.white))))
           ],
         ),
       ),

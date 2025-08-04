@@ -28,4 +28,23 @@ class RegistradosModel {
       fechaReg: map['fechaReg']
     );
   }
+
+    RegistradosModel copyWith({
+    required int edad,
+    required int telefono,
+    required String genero,
+  }) {
+    return RegistradosModel(
+      idasistencia: this.idasistencia,
+      idevento: this.idevento, 
+      idpersona: this.idpersona, 
+      fechaMod: this.fechaMod,
+      estado: this.estado,
+      edad: edad, 
+      genero: genero,
+      nombreCompleto: this.nombreCompleto,
+      telefono: telefono,
+      fechaReg: this.fechaReg
+    );
+  }
 }

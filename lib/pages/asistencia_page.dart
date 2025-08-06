@@ -2,6 +2,7 @@ import 'package:asistenciasapp/models/asistencias_model.dart';
 import 'package:asistenciasapp/models/evento_model.dart';
 import 'package:asistenciasapp/models/persona_model.dart';
 import 'package:asistenciasapp/pages/acepted_page.dart';
+import 'package:asistenciasapp/pages/qr_scanner.dart';
 import 'package:asistenciasapp/pages/registed_page.dart';
 import 'package:asistenciasapp/widgets/person_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -119,7 +120,13 @@ class _AsistenciaPageState extends State<AsistenciaPage> {
           color: Colors.white, icon: Icon(Icons.person_add)
         )),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        appBar: AppBar(title: Row(
+        appBar: AppBar(
+          actions: [
+            IconButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> QrScanner()));
+            }, icon: Icon(Icons.camera))
+          ],
+          title: Row(
           children: [
             Icon(Icons.date_range),
             SizedBox(width: 10),

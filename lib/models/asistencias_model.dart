@@ -40,6 +40,17 @@ class AsistenciasModel {
     await _asistenciaReference.doc(id).update({"fechaMod": DateTime.now()});
   }
 
+  static Future getAsistenciaById(String? id) async{
+    try{
+      CollectionReference _asistenciaReference = FirebaseFirestore.instance.collection("ASISTENCIAS");
+      DocumentSnapshot asistenciaDoc = await _asistenciaReference.doc(id).get();
+      return AsistenciasModel.fromMap(asistenciaDoc.data() as Map<String, dynamic>, asistenciaDoc.id);
+    }catch(e){
+      print("Error al obtener asistencia por id: $e");
+      return null;
+    }
+  }
+
   static Future<List<RegistradosModel>> getRegistrados(String idevento, bool estado) async{
 
     CollectionReference _asistenciaReference = FirebaseFirestore.instance.collection("ASISTENCIAS");

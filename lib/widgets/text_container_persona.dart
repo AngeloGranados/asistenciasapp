@@ -21,6 +21,7 @@ class TextContainerPersona extends StatefulWidget {
 class _TextContainerPersonaState extends State<TextContainerPersona> {
 
   bool activaredit = false;
+  bool editado = false;
   String generoString = "Masculino";
 
   TextEditingController _editingController = TextEditingController();
@@ -83,8 +84,10 @@ class _TextContainerPersonaState extends State<TextContainerPersona> {
 
                 setState(() {
                   activaredit = false; 
+                  editado = true;
                 });
               }, child: Text("Editar", style: TextStyle(fontSize: 14, color: Colors.white),))
+              , if(editado) Icon(Icons.check, color: Colors.green, size: 20)
             ],
           )
         ],
